@@ -1,0 +1,428 @@
+{%load static%}
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>Meal Mate</title>
+        <meta content="width=device-width, initial-scale=1.0" name="viewport">
+        <meta content="Free Website Template" name="keywords">
+        <meta content="Free Website Template" name="description">
+
+    
+
+        <!-- Google Font -->
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" rel="stylesheet">
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.2/css/all.css">
+        <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400|Nunito:600,700" rel="stylesheet"> 
+        
+        
+
+        <!-- CSS Libraries -->
+        <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" rel="stylesheet">
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
+        <link href="{% static 'lib/animate/animate.min.css'%}" rel="stylesheet">
+        <link href="{% static 'lib/owlcarousel/assets/owl.carousel.min.css'%}" rel="stylesheet">
+        <link href="{% static 'lib/flaticon/font/flaticon.css'%}" rel="stylesheet">
+        <link href="{% static 'lib/tempusdominus/css/tempusdominus-bootstrap-4.min.css'%}" rel="stylesheet" />
+
+        <!-- Template Stylesheet -->
+        <link href="{% static 'css/style.css'%}" rel="stylesheet">
+
+    	<link rel="stylesheet" type="text/css" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+	
+    <style>
+        
+        h1 {
+          color: #333333;
+          margin-top: 50px;
+          font-family: Arial, sans-serif;
+          text-align: center;
+        }
+        .balance-card {
+            margin-left :10%;
+            width: 80%;
+            padding: 20px;
+            background-color: #ffffff;
+            border: 2px solid #cccccc;
+            border-radius: 10px;
+            display: inline-block;
+            width: 80%;
+        }
+
+        .balance-label {
+          font-size: 24px;
+          font-weight: bold;
+          color: #333333;
+          text-align: center;
+        }
+        .balance-value {
+          font-size: 36px;
+          font-weight: bold;
+          color: #ff9900;
+          margin-top: 10px;
+          text-align: center;
+        }
+        .loading-gif {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+       .table-container {
+    margin: 50px auto;
+    width: 80%;
+  }
+  
+  table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  th,
+  td {
+    padding: 10px;
+    border: 1px solid #ccc;
+    text-align: left;
+  }
+  
+  th {
+    background-color: #f2f2f2;
+  }
+  
+  @media only screen and (max-width: 768px) {
+    /* On small screens, make the table scroll horizontally */
+    .table-container {
+      overflow-x: auto;
+    }
+  }
+  
+      </style>
+
+      <!-- style payment -->
+
+      <style>
+          @import url('https://fonts.googleapis.com/css?family=Baloo+Bhaijaan|Ubuntu');
+
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Ubuntu', sans-serif;
+}
+
+.payment{
+  background: #d9e6f7;
+  max-width: 360px;
+  margin: 80px auto;
+  height: auto;
+  padding: 35px;
+  padding-top: 70px;
+  border-radius: 5px;
+  position: relative;
+}
+.payment h2{
+  text-align: center;
+  letter-spacing: 2px;
+  margin-bottom: 40px;
+  color: #0d3c61;
+}
+.form .label{
+  display: block;
+  color: #555555;
+  margin-bottom: 6px;
+}
+.input{
+  padding: 13px 0px 13px 25px;
+  width: 100%;
+  text-align: center;
+  border: 2px solid #dddddd;
+  border-radius: 5px;
+  letter-spacing: 1px;
+  word-spacing: 3px;
+  outline: none;
+  font-size: 16px;
+  color: #555555;
+}
+.card-grp{
+  display: flex;
+  justify-content: space-between;
+}
+.card-item{
+  width: 48%;
+}
+.space{
+  margin-bottom: 20px;
+}
+.icon-relative{
+  position: relative;
+}
+.icon-relative .fas,
+.icon-relative .far{
+  position: absolute;
+  bottom: 12px;
+  left: 15px;
+  font-size: 20px;
+  color: #555555;
+}
+
+.close{
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  font-size: 20px;
+  color: #555555;
+  cursor: pointer;
+}
+@media screen and (max-width: 420px){
+  .card-grp{
+    flex-direction: column;
+  }
+  .card-item{
+    width: 100%;
+    margin-bottom: 20px;
+  }
+}
+      </style>
+
+    </head>
+    <body>
+        <!-- Nav Bar Start -->
+        <div class="navbar navbar-expand-lg bg-light navbar-light">
+            <div class="container-fluid">
+                <a href="#" class="navbar-brand">Meal <span>Mate</span></a>
+                <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbarCollapse">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <div class="collapse navbar-collapse justify-content-between" id="navbarCollapse">
+                    <div class="navbar-nav ml-auto">
+                      <a href="{% url 'index' %}" class="nav-item nav-link ">Home</a>
+                        <a href="{% url 'profile' %}" class="nav-item nav-link">Profile</a>
+                        <a href="{% url 'ewallet'%}" class="nav-item nav-link active">E-Wallet</a>
+                        <a href="{% url 'menushowstudent' %}" class="nav-item nav-link">Order</a>
+                      <a href="{% url 'order_history_student' %}" class="nav-item nav-link">Order History</a>
+                      <a href="{% url 'feedbackmenu' %}" class="nav-item nav-link">Feedback</a>
+                      <a href="{% url 'user_home' %}">
+                      <button type="button" class="btn btn-outline-dark">
+                          <i class="fa fa-user mr-1" aria-hidden="true"></i> Logout
+                      </button></a>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Nav Bar End -->
+        {% if messages %}
+        <div class="alert alert-dismissible fade show text-center{% if messages.tags %} {{ messages.tags }}{% endif %}" role="alert" style="font-size: 20px; padding: 20px;">
+          {% for message in messages %}
+            <span {% if message.tags %} class="{% if message.tags == 'success' %}text-success{% elif message.tags == 'error' %}text-danger{% endif %}"{% endif %}>{{ message }}</span><br>
+          {% endfor %}
+          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <script>
+          setTimeout(function() {
+            $('.alert').alert('close');
+          }, 5000);
+        </script>
+      {% endif %}
+      
+
+        <!-- wallet code start here -->
+
+        <h1>My E-Wallet</h1>
+        <br>
+        <div class="balance-card">
+          <div class="balance-label">Current Balance</div>
+          <div class="loading-gif">
+            <img src="{% static 'img/load.gif'%}" alt="Loading...">
+          </div>
+          <div class="balance-value" style="display: none;">₹ {{student.virtual_wallet_balance}}</div>
+        
+        
+        <script>
+          // Delay the display of the balance value by 3 seconds
+          setTimeout(() => {
+            document.querySelector('.loading-gif').style.display = 'none';
+            document.querySelector('.balance-value').style.display = 'block';
+          }, 3000);
+        </script>
+          <button type="button" class="btn btn-primary float-right" id="openModalBtn" data-toggle="modal" data-target="#paymentModal">
+            + Add Funds
+          </button>
+        </div>
+          <!-- paymnet modal -->
+          <div id="paymentModal" class="modal">
+            <div class="payment">
+                <span class="close" data-dismiss="modal"><i class="fas fa-times"></i></span>
+                <h2>Payment Details</h2>
+                <div class="form">
+                  <form method="POST" action="{% url 'add_fund'%}" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div class="space icon-relative">
+                      <label class="label">Card Holder:</label>
+                      <input type="text" class="input" name="cardholder_name" placeholder="Name" required>
+                      <i class="fas fa-user"></i>
+                    </div>                    
+                    <div class="space icon-relative">
+                        <label class="label">Card number:</label>
+                        <input type="text" class="input" placeholder="Card Number" required minlength="16" maxlength="16">
+                        <i class="far fa-credit-card"></i>
+                    </div>
+                    <div class="card-grp space">
+                        <div class="card-item icon-relative">
+                            <label class="label">Expiry date:</label>
+                            <input type="text" class="input" name="expiry-date" placeholder="MM/YY" pattern="\d{2}/\d{2}" title="Please enter a valid expiry date in the format 'MM/YY'" required>
+                            <i class="far fa-calendar-alt"></i>
+                        </div>
+                        <div class="card-item icon-relative">
+                            <label class="label">CVC:</label>
+                            <input type="text" class="input" pattern="\d{3}" minlength="3" maxlength="3" placeholder="000" required>
+                            <i class="fas fa-lock"></i>
+                        </div>
+                    </div>
+                    <div class="space icon-relative">
+                        <label class="label">Amount:</label>
+                        <input type="text" class="input" id="transaction_amount" name="transaction_amount" placeholder="Amount" maxlength="4" required>
+                        <i class="fas fa-dollar-sign"></i>
+                    </div>            
+                    <button class="btn btn-primary btn-block mt-4 w-100" type="submit">Pay</button>
+                </div>
+            </div>
+        </div>
+<!-- Payment Script -->
+<script>
+const openModalBtn = document.getElementById("openModalBtn");
+const paymentModal = document.getElementById("paymentModal");
+const closeBtn = document.querySelector(".close"); 
+const form = document.querySelector(".form");
+const inputs = form.querySelectorAll(".input");
+
+// Open the modal when "Make Payment" button is clicked
+openModalBtn.addEventListener("click", () => {
+ paymentModal.style.display = "block";
+});
+
+const cardNumberInput = document.querySelector('.input[placeholder="Card Number"]');
+cardNumberInput.addEventListener('input', (event) => {
+event.target.value = event.target.value.replace(/\D/g, '');
+});
+
+const cvcInput = document.querySelector('.input[placeholder="000"]');
+
+cvcInput.addEventListener('input', (event) => {
+event.target.value = event.target.value.replace(/\D/g, '').slice(0, 3);
+});
+
+const expiryDateInput = document.querySelector('.input[name="expiry-date"]');
+
+expiryDateInput.addEventListener('input', (event) => {
+const input = event.target;
+let value = input.value.replace(/\D/g, '');
+if (value.length > 4) {
+ value = value.substr(0, 4);
+}
+if (value.length > 2) {
+ value = `${value.substr(0, 2)}/${value.substr(2)}`;
+}
+input.value = value;
+});
+
+const amountInput = document.querySelector('.input[placeholder="Amount"]');
+
+amountInput.addEventListener('input', (event) => {
+  let value = event.target.value;
+  // Replace non-numeric characters except for a single decimal point
+  value = value.replace(/[^\d.]/g, '').replace(/\./, 'x').replace(/\./g, '').replace(/x/, '.');
+
+  event.target.value = value;
+});
+
+
+
+
+// Validate form inputs when Pay button is clicked
+// const payBtn = document.querySelector(".btn-primary");
+// payBtn.addEventListener("click", (event) => {
+//  const form = document.querySelector(".form");
+//  const inputs = form.querySelectorAll(".input");
+//  let hasError = false;
+
+// inputs.forEach((input) => {
+// if (!input.value) {
+//  hasError = true;
+//  const errorMessage = `${input.placeholder} is required.`;
+//  input.setCustomValidity(errorMessage);
+//  input.reportValidity();
+// } else {
+//  input.setCustomValidity("");
+// }
+// });
+
+// if (hasError || !form.checkValidity()) {
+// event.preventDefault();
+// event.stopPropagation();
+// }
+
+// form.classList.add("was-validated");
+// });
+
+
+</script>
+
+
+        </div>
+        <div class="table-container">
+            <h2>Transaction History</h2>
+            <table>
+              <hr class="accent my-6" style="border-width: 2px; border-style: ridge; width: 100%;">
+              <thead>
+                <tr>
+                  <th>Transaction ID</th>
+                  <th>Date & Time</th>
+                  <th>Amount</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for transaction in transactions%}
+                <tr>
+                  <td>{{ transaction.transaction_id }}</td>
+                  <td>{{ transaction.transaction_time|date:"Y-m-d h:i A" }}</td>
+                  <td class="{% if transaction.transaction_type == 'credit' %}text-success{% elif transaction.transaction_type == 'debit' %}text-danger{% endif %}">
+                    {% if transaction.transaction_type == 'credit' %}+ {{ transaction.transaction_amount }}{% elif transaction.transaction_type == 'debit' %}- {{ transaction.transaction_amount }}{% endif %}
+                  </td>                  
+                </tr>
+                {% empty %}
+                <tr>
+                  <td colspan="3">No transactions found.</td>
+                </tr>
+                {% endfor %}
+              </tbody>
+              
+            </table>
+            
+          </div>
+          
+
+       <!-- wallet code end here -->
+        <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+
+        <!-- JavaScript Libraries -->
+        <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js"></script>
+        <script src="{% static 'lib/easing/easing.min.js'%}"></script>
+        <script src="{% static 'lib/owlcarousel/owl.carousel.min.js'%}"></script>
+        <script src="{% static 'lib/tempusdominus/js/moment.min.js'%}"></script>
+        <script src="{% static 'lib/tempusdominus/js/moment-timezone.min.js'%}"></script>
+        <script src="{% static 'lib/tempusdominus/js/tempusdominus-bootstrap-4.min.js'%}"></script>
+        
+       
+        <!-- Template Javascript -->
+        
+
+        <script src="{% static 'js/main.js'%}"></script>
+    </body>
+</html>

@@ -1,0 +1,597 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+	<title>Shopping Cart</title>
+
+	<link rel="stylesheet" type="text/css"
+		href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+        
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"/>
+        <!-- Bootstrap CSS -->
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous">
+
+<!-- Font Awesome 5 -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
+integrity="sha512-B9zf+gL/w/4Q/UDhqVfOfT/OM06T/GNpO9dNllkTWikax4O4N0gPJwOB1ZXlNWJFWHq3CncmPmao9XduYb1RQ=="
+crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+
+</head>
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Comfortaa&display=swap');
+
+*{
+
+	font-family: 'Comfortaa', cursive;
+
+	margin: 0;
+
+	padding: 0;
+
+	box-sizing: border-box;
+
+}
+
+.container{
+
+	max-width: 1200px;
+
+	margin: 0 auto;
+
+}
+
+.container > h1{
+
+	padding: 20px 0;
+
+}
+
+.cart{
+
+	display: flex;
+
+}
+
+.products{
+
+	flex: 0.75;
+
+}
+
+.product{
+
+	display: flex;
+
+	width: 100%;
+
+	height: 200px;
+
+	overflow: hidden;
+
+	border: 1px solid silver;
+
+	margin-bottom: 20px;
+
+}
+
+.product:hover{
+
+	border: none;
+
+	box-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+
+	transform: scale(1.01);
+
+}
+
+.product > img{
+
+	width: 300px;
+
+	height: 200px;
+
+	object-fit: cover;
+
+}
+
+.product > img:hover{
+
+	transform: scale(1.04);
+
+}
+
+.product-info{
+
+	padding: 20px;
+
+	width: 100%;
+
+	position: relative;
+
+}
+
+.product-name, .product-price, .product-offer{
+
+	margin-bottom: 20px;
+
+}
+
+.product-remove{
+
+	position: absolute;
+
+	bottom: 20px;
+
+	right: 20px;
+
+	padding: 10px 25px;
+
+	background-color: rgb(250, 0, 0);
+
+	color: white;
+
+	cursor: pointer;
+
+	border-radius: 5px;
+
+}
+
+    .product-remove:hover{
+
+        background-color: rgb(0, 0, 0);
+
+        color: rgb(255, 255, 255);
+
+        font-weight: 600;
+
+        border: 1px solid rgb(255, 0, 0);
+
+    }
+
+
+.fa{
+
+	margin-right: 5px;
+
+}
+
+
+.cart-total{
+
+	flex: 0.45;
+
+	margin-left: 50px;
+
+	padding: 20px;
+
+	height: 320px;
+
+	border: 2px solid silver;
+
+	border-radius: 5px;
+
+}
+
+.cart-total p{
+
+	display: flex;
+
+	justify-content: space-between;
+
+	margin-bottom: 30px;
+
+	font-size: 20px;
+
+}
+
+.cart-total a{
+
+	display: block;
+
+	text-align: center;
+
+	height: 40px;
+
+	line-height: 40px;
+
+	background-color: greenyellow;
+
+	color: white;
+
+	text-decoration: none;
+
+}
+
+.cart-total a:hover{
+
+	background-color: green;
+
+}
+
+@media screen and (max-width: 700px){
+
+	.remove{
+
+		display: none;
+
+	}
+
+	.product{
+
+		height: 150px;
+
+	}
+
+	.product > img{
+
+		height: 150px;
+
+		width: 200px;
+
+	}
+
+	.product-name, .product-price, .product-offer{
+
+		margin-bottom: 10px;
+
+	}
+
+}
+
+@media screen and (max-width: 900px){
+
+	.cart{
+
+		flex-direction: column;
+
+	}
+
+	.cart-total{
+
+		margin-left: 0;
+
+		margin-bottom: 20px;
+
+	}
+
+}
+
+@media screen and (max-width: 1220px){
+
+	.container{
+
+		max-width: 95%;	display: none;
+
+	}
+
+}
+/* Modal styles */
+.modal {
+  display: none; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: 1; /* Sit on top */
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+  background-color: rgba(0,0,0,0.4); /* Black with opacity */
+}
+
+.modal-content {
+  background-color: #fefefe;
+  margin: 15% auto; /* 15% from the top and centered */
+  padding: 20px;
+  border: 1px solid #888;
+  width: 50%; /* Could be more or less, depending on screen size */
+}
+
+.close {
+  color: #aaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+/* Form styles */
+.form-group {
+  margin-bottom: 20px;
+}
+
+label {
+  display: inline-block;
+  margin-bottom: 5px;
+}
+
+
+.btn-primary {
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.btn-primary:hover {
+  background-color: #0069d9;
+}
+
+/* Animation styles */
+.hidden {
+  display: none;
+}
+
+#success-animation, #failed-animation {
+  position: fixed;
+  z-index: 2;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+}
+
+#success-animation i, #failed-animation i {
+  font-size: 100px;
+  color: #28a745;
+}
+
+#failed-animation i {
+  color: #dc3545;
+}
+
+#success-animation p, #failed-animation p {
+  margin-top: 20px;
+  font-size: 24px;
+  font-weight: bold;
+}
+#total_amounti {
+  border: none;
+  outline: none;
+  font-weight: bold;
+  pointer-events: none;
+}
+
+
+
+</style>
+<body>
+
+    <br>
+    {% if messages %}
+    <div class="alert alert-dismissible fade show text-center{% if messages.tags %} {{ messages.tags }}{% endif %}" role="alert">
+      {% for message in messages %}
+        <span {% if message.tags %} class="{% if message.tags == 'success' %}text-success{% elif message.tags == 'error' %}text-danger{% endif %}"{% endif %}>{{ message }}</span><br>
+      {% endfor %}
+      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <script>
+      setTimeout(function() {
+        $('.alert').alert('close');
+      }, 5000);
+    </script>
+  {% endif %}
+  
+    <div class="container">
+        <a class="btn btn-primary" href="{% url 'menushowstudent' %}" role="button"><-- Go Back</a>
+            <!-- Payment Result -->
+     
+                <h1>My Cart</h1>
+
+                <div class="cart">
+                    <div class="products">
+                        {% if cart_item_details %}
+                        {% for item in cart_item_details %}
+                        <div class="product-row">
+                            {% if item.item1 %}
+                            <div class="product">
+                                <img src="{{ item.item1.images.url }}" alt="{{ item.item1.item_name }}">
+                                <div class="product-info">
+                                    <h3 class="product-name">{{ item.item1.item_name }}</h3>
+                                    <p>{{ item.item1.description }}</p><br>
+                                    <h4 class="product-price">₹ {{ item.item1.price }}</h4>
+                                    <p class="product-remove">
+                                        <a class="remove-link" style="color: rgb(255, 255, 255); text-decoration: none;"
+                                            href="{% url 'remove_item_from_cart' cart_id=item.cartid item_number='item1' %}">
+                                            <i class="fa fa-trash" aria-hidden="true"></i>
+                                            <span class="remove">Remove</span>
+                                        </a>
+                                    </p>
+
+                                </div>
+                            </div>
+                            {% endif %}
+                            {% if item.item2 %}
+                            <div class="product">
+                                <img src="{{ item.item2.images.url }}" alt="{{ item.item2.item_name }}">
+                                <div class="product-info">
+                                    <h3 class="product-name">{{ item.item2.item_name }}</h3>
+                                    <p>{{ item.item2.description }}</p><br>
+                                    <h4 class="product-price">₹ {{ item.item2.price }}</h4>
+                                    <p class="product-remove">
+                                        <a class="remove-link" style="color: rgb(255, 255, 255); text-decoration: none;"
+                                            href="{% url 'remove_item_from_cart' cart_id=item.cartid item_number='item2' %}">
+                                            <i class="fa fa-trash" aria-hidden="true"></i>
+                                            <span class="remove">Remove</span>
+                                        </a>
+                                    </p>
+                                </div>
+                            </div>
+                            {% endif %}
+                            {% if item.item3 %}
+                            <div class="product">
+                                <img src="{{ item.item3.images.url }}" alt="{{ item.item3.item_name }}">
+                                <div class="product-info">
+                                    <h3 class="product-name">{{ item.item3.item_name }}</h3>
+                                    <p>{{ item.item3.description }}</p><br>
+                                    <h4 class="product-price">₹ {{ item.item3.price }}</h4>
+                                    <p class="product-remove">
+                                        <a class="remove-link" style="color: rgb(255, 255, 255); text-decoration: none;"
+                                            href="{% url 'remove_item_from_cart' cart_id=item.cartid item_number='item3' %}">
+                                            <i class="fa fa-trash" aria-hidden="true"></i>
+                                            <span class="remove">Remove</span>
+                                        </a>
+                                    </p>
+                                </div>
+                            </div>
+                            {% endif %}
+                            {% if item.item4 %}
+                            <div class="product">
+                                <img src="{{ item.item4.images.url }}" alt="{{ item.item4.item_name }}">
+                                <div class="product-info">
+                                    <h3 class="product-name">{{ item.item4.item_name }}</h3>
+                                    <p>{{ item.item4.description }}</p><br>
+                                    <h4 class="product-price">₹ {{ item.item4.price }}</h4>
+                                    <p class="product-remove">
+                                        <a class="remove-link" style="color: rgb(255, 255, 255); text-decoration: none;"
+                                            href="{% url 'remove_item_from_cart' cart_id=item.cartid item_number='item4' %}">
+                                            <i class="fa fa-trash" aria-hidden="true"></i>
+                                            <span class="remove">Remove</span>
+                                        </a>
+                                    </p>
+                                </div>
+                            </div>
+                            {% endif %}
+                            {% if item.item5 %}
+                            <div class="product">
+                                <img src="{{ item.item5.images.url }}" alt="{{ item.item5.item_name }}">
+                                <div class="product-info">
+                                    <h3 class="product-name">{{ item.item5.item_name }}</h3>
+                                    <p>{{ item.item5.description }}</p><br><br>
+                                    <h4 class="product-price">₹ {{ item.item5.price }}</h4>
+                                    <p class="product-remove">
+                                        <a class="remove-link" style="color: rgb(255, 255, 255); text-decoration: none;"
+                                            href="{% url 'remove_item_from_cart' cart_id=item.cartid item_number='item5' %}">
+                                            <i class="fa fa-trash" aria-hidden="true"></i>
+                                            <span class="remove">Remove</span>
+                                        </a>
+                                    </p>
+                                </div>
+                            </div>
+                            {% endif %}
+                        </div>
+                        {% endfor %}
+                        {% else %}
+                        <p>Your cart is currently empty.</p>
+                        {% endif %}
+
+                    </div>
+
+                    <div class="cart-total">
+                        <p>
+                            <span>Cart Subtotal</span>
+                            <span name="subtotal_amount"></span>
+                        </p>
+                        <p>
+                            <span>Number of Items</span>
+                            <span name="total_item_number"></span>
+                        </p>
+                        <p>
+                            <span>Sales Tax</span>
+                            <span name="tax"></span>
+                        </p>
+                        <p>
+                            <span>Grand Total (Incl.Tax)</span>
+                            <span name="total_amount"></span>
+                        </p>
+                        <a href="#" id="checkout-link">Proceed to Checkout</a>
+
+                        <div id="modal" class="modal">
+                          <div class="modal-content">
+                            <span class="close">&times;</span>
+                            <h4 class="modal-title">Enter Password to Complete Transaction</h4><br>
+                            <form method="POST" action="{% url 'checkout' %}">
+                                {% csrf_token %}
+                                <div class="form-group">
+                                  <span>Total amount : ₹ </span><b><span name="total_amount2"></span></b> 
+                                <br><br>
+                                    <label for="student_id"> <i class="icon fas fa-lock"></i></label>
+                                    <input type="password" id="student_id" placeholder="Password" name="student_id" required>
+                                  </div>
+                                  <input type="hidden" name="total_amount" id="total_amounti" value="">
+                              <button type="submit" class="btn btn-primary">Submit</button>
+                            </form>
+                          </div>
+                        </div>
+                        
+                        
+                    </div>
+                </div>
+    </div>
+
+</body>
+<!-- script for cart -->
+<script>
+    // Get all the product prices and calculate the total amount
+    const productPrices = document.querySelectorAll('.product-price');
+    let totalPrice = 0;
+    productPrices.forEach(price => {
+      totalPrice += parseInt(price.textContent.slice(2));
+    });
+  
+    // Get the number of products
+    const numberOfProducts = document.querySelectorAll('.product').length;
+  
+    // Calculate the subtotal and sales tax
+    const subTotal = totalPrice;
+    const taxRate = 0.05;
+    const salesTax = subTotal * taxRate;
+  
+    // Calculate the total amount
+    const totalAmount = subTotal + salesTax;
+  
+    // Show the sub-total, number of items, sales tax, and total amount in the respective span tags
+    document.querySelector('span[name="subtotal_amount"]').textContent = `₹ ${subTotal}`;
+    document.querySelector('span[name="total_item_number"]').textContent = numberOfProducts;
+    document.querySelector('span[name="tax"]').textContent = `₹ ${salesTax.toFixed(2)} (${(taxRate * 100).toFixed(2)}%)`;
+    document.querySelector('span[name="total_amount"]').textContent = `₹ ${totalAmount}`;
+    // Get the total amount input field
+    document.querySelector('span[name="total_amount2"]').textContent = `${totalAmount}`;
+// Get the total amount span element
+const totalAmountSpan = document.querySelector('span[name="total_amount2"]');
+document.getElementById("total_amounti").value = totalAmount;
+  </script>
+<!-- script for checkout -->
+<script>
+    // Get the modal element
+var modal = document.getElementById("modal");
+
+// Get the button that opens the modal
+var btn = document.getElementById("checkout-link");
+
+// Get the close button for the modal
+var closeBtn = document.getElementsByClassName("close")[0];
+
+// When the user clicks on the button, open the modal
+btn.onclick = function() {
+  modal.style.display = "block";
+}
+
+// When the user clicks on the close button, close the modal
+closeBtn.onclick = function() {
+  modal.style.display = "none";
+}
+
+// When the user clicks anywhere outside of the modal, close it
+window.onclick = function(event) {
+  if (event.target == modal) {
+    modal.style.display = "none";
+  }
+}
+
+  </script>
+</html>

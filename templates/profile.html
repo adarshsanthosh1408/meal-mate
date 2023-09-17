@@ -1,0 +1,307 @@
+{%load static%}
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>Meal Mate</title>
+        <meta content="width=device-width, initial-scale=1.0" name="viewport">
+        <meta content="Free Website Template" name="keywords">
+        <meta content="Free Website Template" name="description">
+
+    
+
+        <!-- Google Font -->
+        <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400|Nunito:600,700" rel="stylesheet"> 
+        
+        <!-- CSS Libraries -->
+        <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" rel="stylesheet">
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
+        <link href="{% static 'lib/animate/animate.min.css'%}" rel="stylesheet">
+        <link href="{% static 'lib/owlcarousel/assets/owl.carousel.min.css'%}" rel="stylesheet">
+        <link href="{% static 'lib/flaticon/font/flaticon.css'%}" rel="stylesheet">
+        <link href="{% static 'lib/tempusdominus/css/tempusdominus-bootstrap-4.min.css'%}" rel="stylesheet" />
+
+        <!-- Template Stylesheet -->
+        <link href="{% static 'css/style.css'%}" rel="stylesheet">
+
+    	<link rel="stylesheet" type="text/css" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+	<style>
+		@import url("https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap");
+body {
+	background: #f9f9f9;
+	font-family: "Roboto", sans-serif;
+}
+
+.shadow {
+	box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1) !important;
+}
+
+.alert-danger {
+  color: red;
+}
+
+.profile-tab-nav {
+	min-width: 250px;
+}
+
+.tab-content {
+	flex: 1;
+}
+
+.form-group {
+	margin-bottom: 1.5rem;
+}
+
+.nav-pills a.nav-link {
+	padding: 15px 20px;
+	border-bottom: 1px solid #ddd;
+	border-radius: 0;
+	color: #333;
+}
+.nav-pills a.nav-link i {
+	width: 20px;
+}
+
+.img-circle img {
+	height: 100px;
+	width: 100px;
+	border-radius: 100%;
+	border: 5px solid #fff;
+}
+.container2 {
+  border: 1px double rgb(236, 234, 234);
+}
+	</style>    
+    </head>
+
+    <body>
+        <!-- Nav Bar Start -->
+        <div class="navbar navbar-expand-lg bg-light navbar-light">
+            <div class="container-fluid">
+                <a href="#" class="navbar-brand">Meal <span>Mate</span></a>
+                <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbarCollapse">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <div class="collapse navbar-collapse justify-content-between" id="navbarCollapse">
+                    <div class="navbar-nav ml-auto">
+                        <a href="{% url 'index' %}" class="nav-item nav-link ">Home</a>
+                        <a href="{% url 'profile' %}" class="nav-item nav-link active">Profile</a>
+                        <a href="{% url 'ewallet'%}" class="nav-item nav-link">E-Wallet</a>
+                        <a href="{% url 'menushowstudent' %}" class="nav-item nav-link">Order</a>
+                        <a href="{% url 'order_history_student' %}" class="nav-item nav-link">Order History</a>
+                        
+                        <a href="{% url 'feedbackmenu' %}" class="nav-item nav-link">Feedback</a>
+                       
+                        <a href="{% url 'home' %}">
+                        <button type="button" class="btn btn-outline-dark">
+                            <i class="fa fa-user mr-1" aria-hidden="true"></i> Logout
+                        </button></a>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Nav Bar End -->
+        
+        
+       
+      
+        {% if messages %}
+        <div class="alert alert-dismissible fade show text-center{% if messages.tags %} {{ messages.tags }}{% endif %}" role="alert" style="font-size: 20px; padding: 20px;">
+          {% for message in messages %}
+            <span {% if message.tags %} class="{% if message.tags == 'success' %}text-success{% elif message.tags == 'error' %}text-danger{% endif %}"{% endif %}>{{ message }}</span><br>
+          {% endfor %}
+          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <script>
+          setTimeout(function() {
+            $('.alert').alert('close');
+          }, 5000);
+        </script>
+      {% endif %}
+      
+        <section class="py-5 my-5">
+            <div class="container">
+                <h1 class="mb-5">Profile Settings</h1>
+                <div class="container2">
+                <div class="bg-white shadow rounded-lg d-block d-sm-flex">
+                    <div class="profile-tab-nav border-right">
+                        <div class="p-4">
+                            <h4 class="text-center">User</h4>
+                        </div>
+                        <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+                            <a class="nav-link active" id="account-tab" data-toggle="pill" href="#account" role="tab" aria-controls="account" aria-selected="true">
+                                <i class="fa fa-home text-center mr-1"></i> 
+                                Account
+                            </a>
+                            
+                            
+                        </div>
+                    </div>
+                    <div class="tab-content p-4 p-md-5" id="v-pills-tabContent">
+                        <div class="tab-pane fade show text-center active" id="account" role="tabpanel" aria-labelledby="account-tab">
+                            <h3 class="mb-4">Account Settings</h3>
+                            <form method="post" action="{% url 'update_profile' %}">
+                                {% csrf_token %}
+                            <div class="row">
+                                
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>Admission No.</label>
+                                        <input type="number" class="form-control" name="studentid" placeholder="{{ student.studentid }}" value="{{ student.studentid }}" readonly>
+                                    </div>
+                                </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label>First Name</label>
+                                            <input type="text" class="form-control" name="first_name"  placeholder="{{ student.first_name }}" value="{{ student.first_name }}">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label>Last Name</label>
+                                            <input type="text" class="form-control" name="last_name"  placeholder="{{ student.last_name }}" value="{{ student.last_name }}">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label>Email</label>
+                                            <input type="text" class="form-control" name="email"  placeholder="{{ student.email }}" value="{{ student.email }}">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label>Phone number</label>
+                                            <input type="text" class="form-control" name="mobileno" placeholder="{{ student.mobileno }}" value="{{ student.mobileno }}" required pattern="[0-9]{10}" oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0,10);">
+                                        </div>                                                                                                                      
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label>Department Name</label>
+                                            <input type="text" class="form-control" name="department_name"  placeholder="{{ student.department_name }}" value="{{ student.department_name }}">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label>Semester</label>
+                                            <input type="number" class="form-control" name="semester"  placeholder="{{ student.semester }}" value="{{ student.semester }}">
+                                        </div>
+                                    </div>                                    
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                    
+                                          <label>Date of Birth</label>
+                                       <input type="date" class="form-control" name="dob" placeholder="{{ student.dob}}"value="{{ student.dob|date:'Y-m-d' }}">
+
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                          <label>Gender</label><br>
+                                        <select class="form-control" name="gender">
+                                            <option value="M" {% if student.gender == "M" %}selected{% endif %}>Male</option>
+                                            <option value="F" {% if student.gender == "F" %}selected{% endif %}>Female</option>
+                                            <option value="O" {% if student.gender == "O" %}selected{% endif %}>Other</option>
+                                        </select>
+                                    </div>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label>Address</label>
+                                            <textarea class="form-control" name="address" rows="3" placeholder="{{ student.address }}">{{ student.address }}</textarea>
+                                        </div>
+                                        
+                                </div>
+                            </div>
+                            <div>
+                                <button type="submit" class="btn btn-primary">Update</button>
+                                
+                                
+                            </div>
+                        </div>
+                    </form>
+                    
+                               
+                    
+                                
+                        </div>
+                        
+                        
+                    </div>
+                </div>
+                </div>
+            </div>
+        </section>
+ 
+                           
+<script>
+    const startBtn = document.getElementById('start-btn');
+    const stopBtn = document.getElementById('stop-btn');
+    const video = document.getElementById('video-preview');
+    const captureBtn = document.getElementById('capture-btn');
+    const imageForm = document.getElementById('image-form');
+    const imageData = document.getElementById('imagedata');
+    let stream;
+
+    startBtn.addEventListener('click', () => {
+        navigator.mediaDevices.getUserMedia({ video: true })
+        .then(_stream => {
+            stream = _stream;
+            video.srcObject = stream;
+            video.play();
+            captureBtn.disabled = false;
+            stopBtn.disabled = false;
+            startBtn.disabled = true;
+        })
+        .catch(err => {
+            console.error(`Error: ${err}`);
+        });
+    });
+
+    stopBtn.addEventListener('click', () => {
+        stream.getTracks().forEach(track => track.stop());
+        video.srcObject = null;
+        captureBtn.disabled = true;
+        stopBtn.disabled = true;
+        startBtn.disabled = false;
+    });
+
+    captureBtn.addEventListener('click', () => {
+        const canvas = document.createElement('canvas');
+        canvas.width = video.videoWidth;
+        canvas.height = video.videoHeight;
+        const ctx = canvas.getContext('2d');
+        ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+        canvas.toBlob((blob) => {
+            const reader = new FileReader();
+            reader.readAsDataURL(blob);
+            reader.onloadend = () => {
+                imageData.value = reader.result;
+                imageForm.submit();
+            }
+        }, 'image/jpeg', 0.9);
+    });
+</script>
+    
+        <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+
+        <!-- JavaScript Libraries -->
+        <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js"></script>
+        <script src="{% static 'lib/easing/easing.min.js'%}"></script>
+        <script src="{% static 'lib/owlcarousel/owl.carousel.min.js'%}"></script>
+        <script src="{% static 'lib/tempusdominus/js/moment.min.js'%}"></script>
+        <script src="{% static 'lib/tempusdominus/js/moment-timezone.min.js'%}"></script>
+        <script src="{% static 'lib/tempusdominus/js/tempusdominus-bootstrap-4.min.js'%}"></script>
+        
+       
+        <!-- Template Javascript -->
+        <script src="{% static 'js/main.js'%}"></script>
+    </body>
+</html>

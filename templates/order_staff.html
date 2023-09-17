@@ -1,0 +1,384 @@
+{%load static%}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <title>Meal Mate</title>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <meta content="Free Website Template" name="keywords">
+  <meta content="Free Website Template" name="description">
+
+
+
+  <!-- Google Font -->
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400|Nunito:600,700" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/js/all.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" integrity="sha512-fbhdl1Ie3q4AH0X0mBf/X7iPaCwOGyV7H8eLhjlV7QdDtF/BElVzGHdeN6UuV6Ug5or5fLhqclS5+wFwn1G+7Q==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    
+  <!-- CSS Libraries -->
+  <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
+  <link href="{% static 'lib/animate/animate.min.css'%}" rel="stylesheet">
+  <link href="{% static 'lib/owlcarousel/assets/owl.carousel.min.css'%}" rel="stylesheet">
+  <link href="{% static 'lib/flaticon/font/flaticon.css'%}" rel="stylesheet">
+  <link href="{% static 'lib/tempusdominus/css/tempusdominus-bootstrap-4.min.css'%}" rel="stylesheet" />
+  <!-- Template Stylesheet -->
+  <link href="{% static 'css/style.css'%}" rel="stylesheet">
+  <link rel="stylesheet" type="text/css"
+    href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+  <style>
+    .price-highlight {
+      color: rgb(0, 0, 0);
+      /* Change the text color to red */
+      font-weight: bold;
+      /* Make the text bold */
+    }
+    .card {
+  margin-bottom: 20px;
+}
+.card-img-top {
+  width: 200px;
+  height: 200px;
+  align-self: center;
+}
+#video {
+  border: 2px solid gray;
+  border-radius: 4px;
+}
+.add-to-cart-link {
+  text-decoration: none; /* Remove underline */
+  color: rgb(255, 255, 255); 
+}
+.add-to-cart-link:hover {
+  text-decoration: none; /* Remove underline */
+  color: rgb(255, 255, 255); 
+}
+
+.cart-btn {
+  float: right;
+}
+  </style>
+</head>
+
+<body>
+  <!-- Nav Bar Start -->
+  <div class="navbar navbar-expand-lg bg-light navbar-light">
+    <div class="container-fluid">
+      <a href="#" class="navbar-brand">Meal <span>Mate</span></a>
+      <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbarCollapse">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse justify-content-between" id="navbarCollapse">
+        <div class="navbar-nav ml-auto">
+          <a href="{% url 'indexstaff'  %}"  class="nav-item nav-link ">Home</a>
+          <a href="{% url 'menushow' %}" class="nav-item nav-link">Menu</a>
+          <a href="{% url 'order_staff' %}" class="nav-item nav-link active">Order</a>
+          <a href="{% url 'order_history_staff' %}" class="nav-item nav-link">Order History</a>
+          <a href="{% url 'stat' %}" class="nav-item nav-link">Statistics</a>
+          <a href="{% url 'reviews' %}" class="nav-item nav-link">Reviews</a>
+          <a href="{% url 'login' %}">
+            <button type="button" class="btn btn-outline-dark">
+              <i class="fa fa-user mr-1" aria-hidden="true"></i> Logout
+            </button></a>
+
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Nav Bar End -->
+
+
+  <!-- Page Header Start -->
+  <!-- Page Header End -->
+
+  {% if messages %}
+  <div class="alert alert-dismissible fade show text-center{% if messages.tags %} {{ messages.tags }}{% endif %}" role="alert" style="font-size: 20px; padding: 20px;">
+    {% for message in messages %}
+    <span {% if message.tags %} class="{% if message.tags == 'success' %}text-success{% elif message.tags == 'error' %}text-danger{% elif message.tags == 'warning' %}text-warning{% endif %}"{% endif %}>{{ message }}</span><br>
+    {% if message.tags == 'success' or message.tags == 'warning' %}
+      <script>
+        $(document).ready(function(){
+          $('#items-div').show();
+        });
+      </script>
+    {% endif %}
+    {% endfor %}
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <script>
+    setTimeout(function() {
+      $('.alert').alert('close');
+    }, 5000);
+  </script>
+{% endif %}
+
+
+  <div class="container py-5">
+    <div class="text-center">
+        <button id="new-order" class="btn btn-primary btn-success btn-lg">
+          <i class="fas fa-shopping-cart"></i> Place New Order
+        </button><br><br>
+      </div>
+      <!-- image capture code 
+      <div id="capture-div" style="display: none; text-align: center;">
+        <h2>Capture Student Image</h2>
+        <video id="video" width="640" height="480" autoplay></video><br>
+        <form id="image-form" method="POST" action="">
+            {% csrf_token %}
+            <input type="hidden" id="image-data" name="image_data" value="">
+            <button id="capture" class="btn btn-primary"><i class="fas fa-camera"></i> Capture</button>
+        </form>-->
+    </div>
+    
+   <!-- menu code -->
+    <div id="items-div" style="display: none">
+        <div class="row">
+            <div class="col-lg-10 mx-auto col-12 text-center mb-3">
+              <h1 class="mt-0 text-black">Menu</h1>
+            </div>
+        <div class="container">
+            <button type="button" class="btn btn-primary cart-btn" data-toggle="modal" data-target="#cartModal">
+                <i class="bi bi-cart-plus mr-1" aria-hidden="true"></i> View Cart
+              </button>
+              
+      
+            <hr class="accent my-5" style="border-width: 2px; border-style: dotted; width: 100%;">
+            <div class="row">
+              {% for item in menu_items %}
+              {% if item.quantity > 0 %}
+              <div class="col-md-6 mb-3">
+                <div class="card">
+                  <div class="row g-0">
+                    <div class="col-md-4">
+                      <img src="{{ item.images.url }}" class="card-img-top" alt="{{ item.item_name }}"
+                        style="object-fit: cover;">
+                    </div>
+      
+                    <div class="col-md-8">
+                      <div class="card-body">
+                        <h5 class="card-title">{{ item.item_name }}</h5>
+                        <p class="card-text">{{ item.description }}</p>
+                        <p class="card-text">Price: <span class="price-highlight">₹ {{ item.price }}</span></p>
+                        <button class="btn btn-success add-to-cart-btn" data-item-id="{{ item.id }}">
+                          <a href="{% url 'add_to_cart_staff' item.menuid %}" class="add-to-cart-link">Add to Cart</a>
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              {% endif %}
+              {% endfor %}
+            </div>
+          </div>
+        </div>
+      </div>
+    
+ <!-- pop modal to view cart -->
+ <div class="modal fade" id="cartModal" tabindex="-1" role="dialog" aria-labelledby="cartModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="cartModalLabel">Cart Items</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <table class="table">
+            <thead class="table-dark">
+              <tr>
+                <th class="text-center">Item Name</th>
+                <th class="text-center">Price</th>
+                <th class="text-center">Action</th>
+              </tr>
+            </thead>
+            <tbody>
+                {% if carts%}
+                {% for cart in carts %}
+                {% if cart.item1 %}
+                <tr>
+                  <td class="text-center">{{ cart.item1.item_name }}</td>
+                  <td class="text-center" id="item-price">₹ {{ cart.item1.price }}</td>
+                  <td class="text-center">
+                    <form method="POST" action="{% url 'delete_cart_item' cart_id=cart.cartid item_number='item1'  %}">
+                      {% csrf_token %}
+                      <button type="submit" class="btn btn-danger btn-sm">  <i class="fa fa-trash" aria-hidden="true"></i>  Delete</button>
+                    </form>
+                  </td>
+                </tr>
+                {% endif %}
+                {% if cart.item2 %}
+                <tr>
+                  <td class="text-center">{{ cart.item2.item_name }}</td>
+                  <td class="text-center" id="item-price">₹ {{ cart.item2.price }}</td>
+                  <td class="text-center">
+                    <form method="POST" action="{% url 'delete_cart_item' cart_id=cart.cartid item_number='item2'  %}">
+                      {% csrf_token %}
+                      <button type="submit" class="btn btn-danger btn-sm">  <i class="fa fa-trash" aria-hidden="true"></i>  Delete</button>
+                    </form>
+                  </td>
+                </tr>
+                {% endif %}
+                {% if cart.item3 %}
+                <tr>
+                  <td class="text-center">{{ cart.item3.item_name }}</td>
+                  <td class="text-center" id="item-price">₹ {{ cart.item3.price }}</td>
+                  <td class="text-center">
+                    <form method="POST" action="{% url 'delete_cart_item' cart_id=cart.cartid item_number='item3'  %}">
+                      {% csrf_token %}
+                      <button type="submit" class="btn btn-danger btn-sm">  <i class="fa fa-trash" aria-hidden="true"></i>  Delete</button>
+                    </form>
+                  </td>
+                </tr>
+                {% endif %}
+                {% if cart.item4 %}
+                <tr>
+                  <td class="text-center">{{ cart.item4.item_name }}</td>
+                  <td class="text-center" id="item-price">₹ {{ cart.item4.price }}</td>
+                  <td class="text-center">
+                    <form method="POST" action="{% url 'delete_cart_item' cart_id=cart.cartid item_number='item4'  %}">
+                      {% csrf_token %}
+                      <button type="submit" class="btn btn-danger btn-sm">  <i class="fa fa-trash" aria-hidden="true"></i>  Delete</button>
+                    </form>
+                  </td>
+                </tr>
+                {% endif %}
+                {% if cart.item5 %}
+                <tr>
+                  <td class="text-center">{{ cart.item5.item_name }}</td>
+                  <td class="text-center" id="item-price">₹ {{ cart.item5.price }}</td>
+                  <td class="text-center">
+                    <form method="POST" action="{% url 'delete_cart_item' cart_id=cart.cartid item_number='item5'  %}">
+                      {% csrf_token %}
+                      <button type="submit" class="btn btn-danger btn-sm">  <i class="fa fa-trash" aria-hidden="true"></i>  Delete</button>
+                    </form>
+                  </td>
+                </tr>
+                {% endif %}
+                {% if not cart.item1 and not cart.item2 and not cart.item3 and not cart.item4 and not cart.item5 %}
+                <tr>
+                  <td colspan="3" class="text-center">Cart is empty</td>
+              </tr>
+              {% endif %}
+              {% endfor %}
+            {% endif %}
+            </tbody>
+          </table>
+          </div>
+          
+          <div class="row" style="text-align: center;">
+            <div class="col-md-6 text-end">Cart Subtotal:</div>
+            <div class="col-md-6 text-center" id="cart-subtotal">₹ 0</div>
+          </div>
+          <div class="row" style="text-align: center;">
+            <div class="col-md-6 text-end">Sales Tax (5%):</div>
+            <div class="col-md-6 text-center" id="sales-tax">₹ 0</div>
+          </div>
+          <div class="row" style="font-weight: bold; text-align: center;">
+            <div class="col-md-6 text-end">Total Including Tax:</div>
+            <div class="col-md-6 text-center" id="total-including-tax">₹ 0</div>
+          </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <form method="POST" action="{% url 'checkout_staff'  %}">
+            {% csrf_token %}
+            <input type="hidden" name="total_amount" id="total_amount" value="">
+            <button type="submit" class="btn btn-primary">Proceed to Pay</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  </div>
+  <script>
+    $(document).ready(function() {
+        $("#new-order").click(function() {
+            $("#capture-div").show();
+            $("#items-div").hide();
+            navigator.mediaDevices.getUserMedia({ video: true })
+            .then(function(stream) {
+                var video = document.getElementById("video");
+                video.srcObject = stream;
+                video.play();
+            })
+            .catch(function(err) {
+                console.log("An error occurred: " + err);
+            });
+        });
+
+        $("#capture").click(function() {
+            var video = document.getElementById("video");
+            var canvas = document.createElement("canvas");
+            canvas.width = video.videoWidth;
+            canvas.height = video.videoHeight;
+            var ctx = canvas.getContext("2d");
+            ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+            var dataURL = canvas.toDataURL("image/png");
+
+            // Set the captured image data to the hidden input field
+            $("#image-data").val(dataURL);
+
+            // Submit the form to the server-side view function
+            $("#image-form").submit();
+        });
+    });
+</script>
+<script>
+    function calculateCart() {
+      var cartSubtotal = 0;
+      var salesTax = 0;
+      var totalIncludingTax = 0;
+      var items = document.getElementsByClassName('text-center');
+      for (var i = 0; i < items.length; i++) {
+        if (items[i].innerHTML.includes('₹')) {
+          var itemPrice = parseFloat(items[i].innerHTML.replace('₹ ', ''));
+          cartSubtotal += itemPrice;
+        }
+      }
+      salesTax = 0.05 * cartSubtotal;
+      totalIncludingTax = cartSubtotal + salesTax;
+      document.getElementById('cart-subtotal').innerHTML = '₹ ' + cartSubtotal.toFixed(2);
+      document.getElementById('sales-tax').innerHTML = '₹ ' + salesTax.toFixed(2);
+      document.getElementById('total-including-tax').innerHTML = '₹ ' + totalIncludingTax.toFixed(2);
+    }
+    calculateCart();
+  </script>  
+  <script>
+    // get the total amount element
+    var totalElement = document.getElementById("total-including-tax");
+    // get the value of the total amount
+    var totalValue = totalElement.innerHTML;
+    // remove the currency symbol and convert to float
+    var totalAmount = parseFloat(totalValue.replace("₹ ", ""));
+    // set the value of the hidden input field
+    document.getElementById("total_amount").value = totalAmount;
+  </script>
+  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+
+  <!-- JavaScript Libraries -->
+  <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js"></script>
+  <script src="{% static 'lib/easing/easing.min.js'%}"></script>
+  <script src="{% static 'lib/owlcarousel/owl.carousel.min.js'%}"></script>
+  <script src="{% static 'lib/tempusdominus/js/moment.min.js'%}"></script>
+  <script src="{% static 'lib/tempusdominus/js/moment-timezone.min.js'%}"></script>
+  <script src="{% static 'lib/tempusdominus/js/tempusdominus-bootstrap-4.min.js'%}"></script>
+
+
+  <!-- Template Javascript -->
+  <script src="{% static 'js/main.js'%}"></script>
+</body>
+
+</html>

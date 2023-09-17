@@ -1,0 +1,379 @@
+{%load static%}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <title>Meal Mate</title>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <meta content="Free Website Template" name="keywords">
+  <meta content="Free Website Template" name="description">
+
+
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+  <!-- Google Font -->
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.3.1/css/all.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400|Nunito:600,700" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
+  <!-- CSS Libraries -->
+  <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
+  <link href="{% static 'lib/animate/animate.min.css'%}" rel="stylesheet">
+  <link href="{% static 'lib/owlcarousel/assets/owl.carousel.min.css'%}" rel="stylesheet">
+  <link href="{% static 'lib/flaticon/font/flaticon.css'%}" rel="stylesheet">
+  <link href="{% static 'lib/tempusdominus/css/tempusdominus-bootstrap-4.min.css'%}" rel="stylesheet" />
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.3.2/chart.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+
+  <!-- Template Stylesheet -->
+  <link href="{% static 'css/style.css'%}" rel="stylesheet">
+
+  <link rel="stylesheet" type="text/css"
+    href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+  <style>
+    
+    .card-box {
+    position: relative;
+    color: #fff;
+    padding: 20px 10px 40px;
+    margin: 20px 0px;
+}
+.card-box:hover {
+    text-decoration: none;
+    color: #f1f1f1;
+}
+.card-box:hover .icon i {
+    font-size: 100px;
+    transition: 1s;
+    -webkit-transition: 1s;
+}
+.card-box .inner {
+    padding: 5px 10px 0 10px;
+}
+.card-box h3 {
+    font-size: 27px;
+    font-weight: bold;
+    margin: 0 0 8px 0;
+    white-space: nowrap;
+    padding: 0;
+    text-align: left;
+}
+.card-box p {
+    font-size: 15px;
+}
+.card-box .icon {
+    position: absolute;
+    top: auto;
+    bottom: 5px;
+    right: 5px;
+    z-index: 0;
+    font-size: 72px;
+    color: rgba(0, 0, 0, 0.15);
+}
+.card-box .card-box-footer {
+    position: absolute;
+    left: 0px;
+    bottom: 0px;
+    text-align: center;
+    padding: 3px 0;
+    color: rgba(255, 255, 255, 0.8);
+    background: rgba(0, 0, 0, 0.1);
+    width: 100%;
+    text-decoration: none;
+}
+.card-box:hover .card-box-footer {
+    background: rgba(0, 0, 0, 0.3);
+}
+.bg-blue {
+    background-color: #00c0ef !important;
+}
+.bg-green {
+    background-color: #00a65a !important;
+}
+.bg-orange {
+    background-color: #f39c12 !important;
+}
+.bg-red {
+    background-color: #d9534f !important;
+}
+#barChart,#doughnutChart {
+  margin: auto;
+}
+  </style>
+</head>
+
+<body>
+  <!-- Nav Bar Start -->
+  <div class="navbar navbar-expand-lg bg-light navbar-light">
+    <div class="container-fluid">
+      <a href="#" class="navbar-brand">Meal <span>Mate</span></a>
+      <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbarCollapse">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse justify-content-between" id="navbarCollapse">
+        <div class="navbar-nav ml-auto">
+          <a href="{% url 'indexstaff'  %}"  class="nav-item nav-link ">Home</a>
+          <a href="{% url 'menushow' %}" class="nav-item nav-link">Menu</a>
+          
+          <a href="{% url 'order_history_staff' %}" class="nav-item nav-link">Order History</a>
+          <a href="{% url 'stat' %}" class="nav-item nav-link active">Statistics</a>
+          <a href="{% url 'reviews' %}" class="nav-item nav-link ">Reviews</a>
+          <a href="{% url 'login' %}">
+            <button type="button" class="btn btn-outline-dark">
+              <i class="fa fa-user mr-1" aria-hidden="true"></i> Logout
+            </button></a>
+
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Nav Bar End -->
+
+      <div class="container">
+        <br><br>
+        <div class="row">
+            <div class="col-lg-3 col-sm-6">
+                <div class="card-box bg-blue">
+                    <div class="inner">
+                      <h3 id="menu-items" style="color: #fff;"> {{ total_menu_items }} </h3>
+                        <p>Total Menu Items </p>
+                    </div>
+                    <div class="icon">
+                        <i class="fa fa-cutlery" aria-hidden="true"></i>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-3 col-sm-6">
+                <div class="card-box bg-green">
+                    <div class="inner">
+                      <h3 id="money-earned" style="color: #fff;"> ₹{{ total_money_earned|floatformat:2 }} </h3>
+                        <p> Total Money Earned</p>
+                    </div>
+                    <div class="icon">
+                        <i class="fa fa-money" aria-hidden="true"></i>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 col-sm-6">
+                <div class="card-box bg-orange">
+                    <div class="inner">
+                      <h3 id="total-orders" style="color: #fff;"> {{ total_orders }} </h3>
+                        <p> Total Orders </p>
+                    </div>
+                    <div class="icon">
+                        <i class="fa fa-shopping-cart" aria-hidden="true"></i>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 col-sm-6">
+                <div class="card-box bg-red">
+                    <div class="inner">
+                      <h3 id="registered-students" style="color: #fff;"> {{ registered_students }} </h3>
+                        <p> Registered Students </p>
+                    </div>
+                    <div class="icon">
+                        <i class="fa fa-users"></i>
+                    </div>
+                </div>
+            </div>
+        
+       
+    </div> 
+    <hr class="hr hr-blurry my-5" />
+    <div class="row">
+    <br>
+    
+    <br>
+    <div class="col-md-6">
+    <h4>Most Ordered Items</h4>
+    
+      <div id="items-data" style="display: none;">{{ items|json_script:"items-data" }}</div>
+      <canvas id="barChart" width="500" height="400"></canvas>
+      
+      <script>
+          var itemsData = JSON.parse(document.getElementById('items-data').textContent);
+          var labels = [];
+          var quantities = [];
+          var backgroundColors = [];
+          var hoverBackgroundColors = [];
+      
+          for (var i = 0; i < itemsData.length; i++) {
+              var item = itemsData[i];
+              labels.push(item.item_name);
+              quantities.push(item.count);
+              backgroundColors.push(getRandomColor());
+              hoverBackgroundColors.push(getRandomColor());
+          }
+      
+          function getRandomColor() {
+              var letters = '0123456789ABCDEF';
+              var color = '#';
+              for (var i = 0; i < 6; i++) {
+                  color += letters[Math.floor(Math.random() * 16)];
+              }
+              return color;
+          }
+      
+          var ctxB = document.getElementById("barChart").getContext('2d');
+          var myBarChart = new Chart(ctxB, {
+              type: 'bar',
+              data: {
+                  labels: labels,
+                  datasets: [{
+                      label: '# of Items',
+                      data: quantities,
+                      backgroundColor: backgroundColors,
+                      hoverBackgroundColor: hoverBackgroundColors
+                  }]
+              },
+              options: {
+                  scales: {
+                      yAxes: [{
+                          ticks: {
+                              beginAtZero: true
+                          }
+                      }]
+                  },
+                  responsive: true,
+                  legend: {
+                      display: false
+                  }
+              }
+          });
+      </script>
+    </div>
+    <div class="col-md-6">
+    <h4>Order Mode</h4>
+    <div class="row">
+      <div id="order-data" style="display: none;">{{ order_modes|json_script:"order-data" }}</div>
+      <canvas id="doughnutChart" width="350" height="350"></canvas>
+      
+      <script>
+          var orderData = JSON.parse(document.getElementById('order-data').textContent);
+          var labels = [];
+          var quantities = [];
+          var backgroundColors = [];
+          var hoverBackgroundColors = [];
+          var totalOrders = 0;
+      
+          for (var i = 0; i < orderData.length; i++) {
+              var order = orderData[i];
+              labels.push(order.mode);
+              quantities.push(order.count);
+              backgroundColors.push(getRandomColor());
+              hoverBackgroundColors.push(getRandomColor());
+              totalOrders += order.count; // Add the count of the current order mode to the total count
+          }
+      
+          function getRandomColor() {
+              var letters = '0123456789ABCDEF';
+              var color = '#';
+              for (var i = 0; i < 6; i++) {
+                  color += letters[Math.floor(Math.random() * 16)];
+              }
+              return color;
+          }
+      
+          // Add the total order count to the center of the doughnut chart
+          var ctxD = document.getElementById("doughnutChart").getContext('2d');
+          var myDoughnutChart = new Chart(ctxD, {
+              type: 'doughnut',
+              data: {
+                  labels: labels,
+                  datasets: [{
+                      data: quantities,
+                      backgroundColor: backgroundColors,
+                      hoverBackgroundColor: hoverBackgroundColors
+                  }]
+              },
+              options: {
+                  responsive: true,
+                  plugins: {
+                      doughnutlabel: {
+                          labels: [
+                              {
+                                  text: 'Total Orders',
+                                  font: {
+                                      size: '20'
+                                  }
+                              },
+                              {
+                                  text: totalOrders.toString(),
+                                  font: {
+                                      size: '30'
+                                  }
+                              }
+                          ]
+                      }
+                  }
+              }
+          });
+      </script>
+      
+    </div>
+    
+   
+    </div>
+
+   
+</div>
+
+<hr class="hr hr-blurry my-5" />
+<script>
+    $(document).ready(function() {
+        animateValue('#menu-items', '{{ total_menu_items }}', 2000);
+        animateValue('#money-earned', '{{ total_money_earned }}', 2000);
+        animateValue('#total-orders', '{{ total_orders }}', 2000);
+        animateValue('#registered-students', '{{ registered_students }}', 2000);
+    });
+  
+    function animateValue(id, endVal, duration) {
+      var startVal = 0;
+      var range = endVal - startVal;
+      var startTime = new Date().getTime();
+      var endTime = startTime + duration;
+  
+      var interval = setInterval(function() {
+          var currentTime = new Date().getTime();
+          var remaining = Math.max((endTime - currentTime) / duration, 0);
+          var currentValue = endVal - (remaining * range);
+          if (id === '#money-earned') {
+              // format money value with rupee symbol and decimal points
+              $(id).text('₹' + currentValue.toFixed(2));
+          } else {
+              $(id).text(Math.ceil(currentValue));
+          }
+          if (currentValue == endVal) {
+              clearInterval(interval);
+          }
+      }, 1000 / 60);
+  }
+  
+  </script>
+
+  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+
+  <!-- JavaScript Libraries -->
+  <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js"></script>
+  <script src="{% static 'lib/easing/easing.min.js'%}"></script>
+  <script src="{% static 'lib/owlcarousel/owl.carousel.min.js'%}"></script>
+  <script src="{% static 'lib/tempusdominus/js/moment.min.js'%}"></script>
+  <script src="{% static 'lib/tempusdominus/js/moment-timezone.min.js'%}"></script>
+  <script src="{% static 'lib/tempusdominus/js/tempusdominus-bootstrap-4.min.js'%}"></script>
+
+
+  <!-- Template Javascript -->
+  <script src="{% static 'js/main.js'%}"></script>
+</body>
+
+</html>

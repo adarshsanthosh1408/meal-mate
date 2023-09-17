@@ -1,0 +1,252 @@
+{%load static%}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <title>Meal Mate</title>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <meta content="Free Website Template" name="keywords">
+  <meta content="Free Website Template" name="description">
+
+
+
+  <!-- Google Font -->
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400|Nunito:600,700" rel="stylesheet">
+
+  <!-- CSS Libraries -->
+  <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
+  <link href="{% static 'lib/animate/animate.min.css'%}" rel="stylesheet">
+  <link href="{% static 'lib/owlcarousel/assets/owl.carousel.min.css'%}" rel="stylesheet">
+  <link href="{% static 'lib/flaticon/font/flaticon.css'%}" rel="stylesheet">
+  <link href="{% static 'lib/tempusdominus/css/tempusdominus-bootstrap-4.min.css'%}" rel="stylesheet" />
+
+  <!-- Template Stylesheet -->
+  <link href="{% static 'css/style.css'%}" rel="stylesheet">
+
+  <link rel="stylesheet" type="text/css"
+    href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+  <style>
+    .price-highlight {
+      color: rgb(0, 0, 0);
+      /* Change the text color to red */
+      font-weight: bold;
+      /* Make the text bold */
+    }
+    .card {
+  margin-bottom: 20px;
+}
+.card-img-top {
+  width: 200px;
+  height: 235px;
+  align-self: center;
+}
+  </style>
+</head>
+
+<body>
+  <!-- Nav Bar Start -->
+  <div class="navbar navbar-expand-lg bg-light navbar-light">
+    <div class="container-fluid">
+      <a href="#" class="navbar-brand">Meal <span>Mate</span></a>
+      <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbarCollapse">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse justify-content-between" id="navbarCollapse">
+        <div class="navbar-nav ml-auto">
+          <a href="{% url 'indexstaff'  %}" class="nav-item nav-link">Home</a>
+          <a href="{% url 'menushow' }" class="nav-item nav-link active">Menu</a> 
+          <a href="{% url 'order_history_staff' %}" class="nav-item nav-link">Order History</a>
+          <a href="{% url 'stat' %}" class="nav-item nav-link">Statistics</a>
+          <a href="{% url 'reviews' %}" class="nav-item nav-link">Reviews</a>
+          <a href="{% url 'login' %}">
+            <button type="button" class="btn btn-outline-dark">
+              <i class="fa fa-user mr-1" aria-hidden="true"></i> Logout
+            </button></a>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Nav Bar End -->
+
+
+  {% if messages %}
+  <div class="alert alert-dismissible fade show text-center{% if messages.tags %} {{ messages.tags }}{% endif %}" role="alert" style="font-size: 20px; padding: 20px;">
+    {% for message in messages %}
+      <span {% if message.tags %} class="{% if message.tags == 'success' %}text-success{% elif message.tags == 'error' %}text-danger{% endif %}"{% endif %}>{{ message }}</span><br>
+    {% endfor %}
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <script>
+    setTimeout(function() {
+      $('.alert').alert('close');
+    }, 5000);
+  </script>
+{% endif %}
+
+
+
+  <div class="container py-5">
+    <div class="row">
+      <div class="col-lg-10 mx-auto col-12 text-center mb-3">
+        <h1 class="mt-0 text-black">Menu</h1>
+        <hr class="accent my-5" style="border-width: 2px; border-style: ridge; width: 100%;">
+        <button type="button" class="btn btn-primary ml-auto" data-toggle="modal" data-target="#addMenuItemModal">
+          + Add Menu Item
+        </button>
+      </div>
+
+
+      <div class="modal fade" id="addMenuItemModal" tabindex="-1" role="dialog" aria-labelledby="addMenuItemModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="addMenuItemModalLabel">Add Menu Item</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <form method="POST" action="{% url 'addmenu'%}" enctype="multipart/form-data">
+              {% csrf_token %}
+              <div class="modal-body">
+                <div class="form-group">
+                  <label for="item-name">Item Name:</label>
+                  <input type="text" class="form-control" id="item-name" name="item-name" required>
+                </div>
+                <div class="form-group">
+                  <label for="item-description">Description:</label>
+                  <textarea class="form-control" id="item-description" name="item-description" rows="3"
+                    required></textarea>
+                </div>
+                <div class="form-group">
+                  <label for="item-quantity">Quantity:</label>
+                  <input type="number" class="form-control" id="item-quantity" name="item-quantity" required>
+                </div>
+                <div class="form-group">
+                  <label for="item-price">Price:</label>
+                  <input type="number" class="form-control" id="item-price" name="item-price" required>
+                </div>
+                <div class="form-group">
+                  <label for="item-image">Image:</label>
+                  <input type="file" class="form-control-file" id="item-image" name="item-image" required>
+                </div>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                <button type="submit" class="btn btn-primary">Add Item</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+
+
+      <div class="container">
+        <div class="row">
+          {% for item in menu_items %}
+          <div class="col-md-6 mb-3">
+            <div class="card">
+              <div class="row g-0">
+                <div class="col-md-4">
+                  <img src="{{ item.images.url}}" class="card-img-top" alt="{{ item.item_name }}">
+                </div>
+                <div class="col-md-8">
+                  <div class="card-body">
+                    <h5 class="card-title">{{ item.item_name }}</h5>
+                    <p class="card-text">{{ item.description }}</p>
+                    <p class="card-text">Quantity: {{ item.quantity }}</p>
+                    <p class="card-text">Price: <span class="price-highlight">₹ {{ item.price }}</span></p>
+                    <a href="#" class="btn btn-primary" data-toggle="modal" data-target="#editModal{{ item.menuid }}">Edit</a>
+                    <a href="{% url 'delete_menu' item.menuid %}" class="btn btn-danger">Delete</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>{% endfor %}
+        </div>
+      </div> 
+      
+
+      
+      {% for item in menu_items %}
+<!-- Edit Modal for Menu Item {{ item.menuid }} -->
+<div class="modal fade" id="editModal{{ item.menuid }}" tabindex="-1" role="dialog" aria-labelledby="editModalLabel{{ item.menuid }}" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <form id="editMenuForm{{ item.menuid }}" method="POST" action="{% url 'edit_menu' item.menuid %}" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="modal-header">
+          <h5 class="modal-title" id="editModalLabel{{ item.menuid }}">Edit Menu Item {{ item.menuid }}</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="form-group">
+            <label for="item_name">Item Name</label>
+            <input type="text" class="form-control" id="item_name" name="item_name" value="{{ item.item_name }}">
+          </div>
+          <div class="form-group">
+            <label for="description">Description</label>
+            <textarea class="form-control" id="description" name="description" rows="3">{{ item.description }}</textarea>
+          </div>
+          <div class="form-group">
+            <label for="quantity">Quantity</label>
+            <input type="number" class="form-control" id="quantity" name="quantity" value="{{ item.quantity }}">
+          </div>
+          <div class="form-group">
+            <label for="price">Price</label>
+            <input type="number" class="form-control" id="price" name="price" value="{{ item.price }}">
+          </div>
+          <div class="form-group">
+            <label for="image">Image</label>
+            <input type="file" class="form-control-file" id="image" name="menu_image">
+            {% if item.images %}
+            <img src="{{ item.images.url }}" class="img-thumbnail mt-2" alt="{{ item.item_name }}">
+            {% endif %}
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <button type="submit" class="btn btn-primary">Save changes</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+{% endfor %}
+
+
+      
+    </div>
+  </div>
+  </div>
+  </div>
+
+
+
+  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+
+  <!-- JavaScript Libraries -->
+  <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js"></script>
+  <script src="{% static 'lib/easing/easing.min.js'%}"></script>
+  <script src="{% static 'lib/owlcarousel/owl.carousel.min.js'%}"></script>
+  <script src="{% static 'lib/tempusdominus/js/moment.min.js'%}"></script>
+  <script src="{% static 'lib/tempusdominus/js/moment-timezone.min.js'%}"></script>
+  <script src="{% static 'lib/tempusdominus/js/tempusdominus-bootstrap-4.min.js'%}"></script>
+
+
+  <!-- Template Javascript -->
+  <script src="{% static 'js/main.js'%}"></script>
+</body>
+
+</html>

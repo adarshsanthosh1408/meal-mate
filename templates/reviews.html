@@ -1,0 +1,216 @@
+{%load static%}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <title>Meal Mate</title>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <meta content="Free Website Template" name="keywords">
+  <meta content="Free Website Template" name="description">
+
+
+
+  <!-- Google Font -->
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400|Nunito:600,700" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
+  <!-- CSS Libraries -->
+  <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
+  <link href="{% static 'lib/animate/animate.min.css'%}" rel="stylesheet">
+  <link href="{% static 'lib/owlcarousel/assets/owl.carousel.min.css'%}" rel="stylesheet">
+  <link href="{% static 'lib/flaticon/font/flaticon.css'%}" rel="stylesheet">
+  <link href="{% static 'lib/tempusdominus/css/tempusdominus-bootstrap-4.min.css'%}" rel="stylesheet" />
+
+  <!-- Template Stylesheet -->
+  <link href="{% static 'css/style.css'%}" rel="stylesheet">
+
+  <link rel="stylesheet" type="text/css"
+    href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+  <style>
+    .price-highlight {
+      color: rgb(0, 0, 0);
+      /* Change the text color to red */
+      font-weight: bold;
+      /* Make the text bold */
+    }
+    .card {
+  margin-bottom: 20px;
+}
+.card-img-top {
+  width: 200px;
+  height: 235px;
+  align-self: center;
+}
+  </style>
+</head>
+
+<body>
+  <!-- Nav Bar Start -->
+  <div class="navbar navbar-expand-lg bg-light navbar-light">
+    <div class="container-fluid">
+      <a href="#" class="navbar-brand">Meal <span>Mate</span></a>
+      <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbarCollapse">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse justify-content-between" id="navbarCollapse">
+        <div class="navbar-nav ml-auto">
+          <a href="{% url 'indexstaff'  %}" class="nav-item nav-link">Home</a>
+          <a href="{% url 'menushow' }" class="nav-item nav-link">Menu</a>
+          
+          <a href="{% url 'order_history_staff' %}" class="nav-item nav-link">Order History</a>
+          <a href="{% url 'stat' %}" class="nav-item nav-link">Statistics</a>
+          <a href="{% url 'reviews' %}" class="nav-item nav-link active">Reviews</a>
+          <a href="{% url 'home' %}">
+            <button type="button" class="btn btn-outline-dark">
+              <i class="fa fa-user mr-1" aria-hidden="true"></i> Logout
+            </button></a>
+
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Nav Bar End -->
+
+  <div class="container">
+    <div class="card shadow-sm my-4">
+        <div class="row">
+            <div class="col-md-4"><br><br><br>
+                <div class="card-body text-center">
+                    <h2 class="card-title font-weight-light mb-3">Total Reviews</h2>
+                    <span class="mt-4 display-4">{{total_reviews}}</span><br>
+                    <button type="button" class="btn btn-primary btn-lg mt-3 collapsed" data-toggle="collapse" data-target="#reviews">Read reviews</button>
+                </div>    
+            </div>
+            <div class="col col-md-auto p-0 mx-3 mx-lg-0 border-bottom border-right border-light"></div>
+            <div class="col-md">
+                <ul class="list-unstyled pr-3">
+                    <li class="p-3">
+                        <div class="d-flex p-2">
+                            <span class="text-secondary display-4 mr-3"><i class="fa fa-smile"></i></span>
+                            <div class="ml-2">
+                                <h3 class="card-title font-weight-light">Positive</h3>
+                                <h6 class="font-weight-light">{{positive_reviews}} Reviews</h6>
+                            </div>
+                        </div>
+                        <div class="progress" style="height: 5px;">
+                            <div class="progress-bar bg-success " role="progressbar"  aria-valuemin="0" aria-valuemax="100"></div>
+                        </div>
+                    </li>
+                    <li class="p-3">
+                        <div class="d-flex p-2">
+                            <span class="text-secondary display-4 mr-3"><i class="fa fa-meh"></i></span>
+                            <div class="ml-2">
+                                <h3 class="card-title font-weight-light">Neutral</h3>
+                                <h6 class="font-weight-light">{{neutral_reviews}} Reviews</h6>
+                            </div>
+                        </div>
+                        <div class="progress" style="height: 5px;">
+                            <div class="progress-bar bg-primary " role="progressbar"  aria-valuemin="0" aria-valuemax="100"></div>
+                        </div>
+                    </li>
+                    <li class="p-3">
+                        <div class="d-flex p-2">
+                            <span class="text-muted display-4 mr-3"><i class="fa fa-frown"></i></span>
+                            <div class="ml-2">
+                                <h3 class="card-title font-weight-light">Negative</h3>
+                                <h6 class="font-weight-light">{{negative_reviews}} Reviews</h6>
+                            </div>
+                        </div>
+                        <div class="progress" style="height: 5px;">
+                            <div class="progress-bar progress-bar-striped progress-bar-animated bg-danger "  role="progressbar"  aria-valuemin="0" aria-valuemax="100"></div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+            <div class="col-12">
+                <div class="p-3 collapse" id="reviews">
+                    {% for feedback in feedbacks %}
+                    <hr class="hr hr-blurry" />
+                    <div class="review">
+                        <h4>{{ feedback.student_name }}</h4> <h6 style="font-weight: lighter;" >{{ feedback.submission_time|date:"F d, Y h:i A" }}<br></h6>
+                            <h5><span class="stars" id="stars-{{ feedback.feedback_id }}"></span></h5>
+                        <p>Ordered Item : <b>{{ feedback.item_name }}</b></p>
+                        <p style="font-size: 18px;"><em>"{{ feedback.comment }}"</em> </p>
+                        <div class="p-3 text-center">
+                            <button type="button" class="btn btn-outline-secondary btn-sm">
+                                <i class="fa fa-thumbs-up"></i> Like
+                            </button>
+                        </div>   
+                      </div>
+                      <script>
+                        var starsContainer = document.getElementById('stars-{{ feedback.feedback_id }}');
+                        var rating = "{{ feedback.rating }}";
+                        for (var i = 1; i <= 5; i++) {
+                            var star = document.createElement('i');
+                            star.classList.add('fa', 'fa-star');
+                            if (i <= rating) {
+                                star.classList.add('text-warning');
+                            } else {
+                                star.classList.add('text-muted');
+                            }
+                            starsContainer.appendChild(star);
+                        }
+                    </script>
+                    {% empty %}
+                    <p>No reviews found.</p>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script>
+    var totalReviews = '{{ total_reviews }}';
+    var positiveReviews ='{{ positive_reviews }}';
+    var negativeReviews = '{{ negative_reviews }}';
+    var neutralReviews = '{{ neutral_reviews }}';
+  
+    var positivePercentage = (positiveReviews / totalReviews) * 100;
+    var negativePercentage = (negativeReviews / totalReviews) * 100;
+    var neutralPercentage = (neutralReviews / totalReviews) * 100;
+  
+    var positiveBar = document.querySelector('.progress-bar.bg-success');
+    var negativeBar = document.querySelector('.progress-bar.bg-danger');
+    var neutralBar = document.querySelector('.progress-bar.bg-primary');
+  
+    positiveBar.style.width = positivePercentage + '%';
+    positiveBar.setAttribute('aria-valuenow', positivePercentage);
+  
+    negativeBar.style.width = negativePercentage + '%';
+    negativeBar.setAttribute('aria-valuenow', negativePercentage);
+  
+    neutralBar.style.width = neutralPercentage + '%';
+    neutralBar.setAttribute('aria-valuenow', neutralPercentage);
+  </script>
+        
+    </div>
+  </div>
+  </div>
+  </div>
+
+
+
+  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+
+  <!-- JavaScript Libraries -->
+  <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js"></script>
+  <script src="{% static 'lib/easing/easing.min.js'%}"></script>
+  <script src="{% static 'lib/owlcarousel/owl.carousel.min.js'%}"></script>
+  <script src="{% static 'lib/tempusdominus/js/moment.min.js'%}"></script>
+  <script src="{% static 'lib/tempusdominus/js/moment-timezone.min.js'%}"></script>
+  <script src="{% static 'lib/tempusdominus/js/tempusdominus-bootstrap-4.min.js'%}"></script>
+
+
+  <!-- Template Javascript -->
+  <script src="{% static 'js/main.js'%}"></script>
+</body>
+
+</html>
